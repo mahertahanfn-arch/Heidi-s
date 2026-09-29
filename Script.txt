@@ -1,0 +1,56 @@
+# Heidi-slocal Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "KingFade"
+gui.IgnoreGuiInset = true
+gui.ResetOnSpawn = false
+gui.DisplayOrder = 999
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.fromScale(1, 1)
+frame.BackgroundColor3 = Color3.new(0, 0, 0)
+frame.BackgroundTransparency = 1
+frame.BorderSizePixel = 0
+frame.Parent = gui
+
+local label = Instance.new("TextLabel")
+label.Size = UDim2.fromScale(0.8, 0.2)
+label.Position = UDim2.fromScale(0.1, 0.4)
+label.BackgroundTransparency = 1
+label.TextTransparency = 1
+label.Text = "IBBYS PENGUIN SISTER WITH CRAZY BIG HIPPOPOTAMUS TITTIES POTENTIAL BOUNCING ON MY DICK WITH HER SKIRT AND SPITTING ON IT"
+label.TextColor3 = Color3.new(1, 1, 1)
+label.TextScaled = true
+label.Font = Enum.Font.GothamBold
+label.Parent = frame
+
+local INTERVAL = 300  -- seconds between cycles
+local FADE_TIME = 3  -- fade-out duration
+local HOLD_TIME = 1  -- seconds fully black before fading
+
+local info = TweenInfo.new(FADE_TIME, Enum.EasingStyle.Quad)
+
+local function fadeCycle()
+	-- snap to black with text
+	frame.BackgroundTransparency = 0
+	label.TextTransparency = 0
+
+	task.wait(HOLD_TIME)
+
+	-- fade away
+	local t = TweenService:Create(frame, info, {BackgroundTransparency = 1})
+	TweenService:Create(label, info, {TextTransparency = 1}):Play()
+	t:Play()
+	t.Completed:Wait()
+end
+
+fadeCycle()  -- runs right away
+
+while true do
+	task.wait(INTERVAL)
+	fadeCycle()
+end
